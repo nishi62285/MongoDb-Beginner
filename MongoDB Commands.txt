@@ -1,0 +1,387 @@
+My Github Profile : 
+URL to download Mongo : https://www.mongodb.com/download-center#community
+open cmd ,Navigate to : C:\Program Files\MongoDB\Server\4.0\bin 
+type mongo, hit Enter
+>show dbs
+>use jkitdb
+>db
+>db.createCollection('mycollection')
+> db.mycollection.insert({'name':'jkit'})
+> db.mycollection.insert({'name':'jkit','Departments':{ 'Science':{'DeprtmentId'
+:123,'DepartmentName':'Science Department'},'Math':{'DepartmentId':345,'Departme
+ntName':'Math'}}})
+> db.mycollection.insert({'name':'jkit','Address':{ 'City':'Mumbai','State':'Mah
+arashtra','Pincode':4000400}})
+> db.mycollection.count()
+3
+> db.mycollection.find({'name':'jkit'})
+{ "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"), "name" : "jkit" }
+{ "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"), "name" : "jkit", "Address" : { "
+City" : "Mumbai", "State" : "Maharashtra", "Pincode" : 4000400 } }
+{ "_id" : ObjectId("5ba6824ccd7bbd4240460e20"), "name" : "jkit", "Departments" :
+ { "Science" : { "DeprtmentId" : 123, "DepartmentName" : "Science Department" },
+ "Math" : { "DepartmentId" : 345, "DepartmentName" : "Math" } } }
+> db.mycollection.find({'name':'jkit'}).pretty()
+{ "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"), "name" : "jkit" }
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        }
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "jkit",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        }
+}
+> db.mycollection.find({'Address.City':'Mumbai'})
+{ "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"), "name" : "jkit", "Address" : { "
+City" : "Mumbai", "State" : "Maharashtra", "Pincode" : 4000400 } }
+> db.mycollection.find({'Address.City':'Mumbai'}).pretty()
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        }
+}
+> db.mycollection.find({$and:[{'Address.State':'Maharashtra'},{'name':'jkit'}]})
+.pretty()
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        }
+}
+> db.mycollection.insert({'_id':12345,'name':'abc','email':'dummy@mail.com'})
+WriteResult({ "nInserted" : 1 })
+> db.mycollection.find()
+{ "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"), "name" : "jkit" }
+{ "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"), "name" : "jkit", "Address" : { "
+City" : "Mumbai", "State" : "Maharashtra", "Pincode" : 4000400 } }
+{ "_id" : ObjectId("5ba6824ccd7bbd4240460e20"), "name" : "jkit", "Departments" :
+ { "Science" : { "DeprtmentId" : 123, "DepartmentName" : "Science Department" },
+ "Math" : { "DepartmentId" : 345, "DepartmentName" : "Math" } } }
+{ "_id" : 12345, "name" : "abc", "email" : "dummy@mail.com" }
+> db.mycollection.find().pretty()
+{ "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"), "name" : "jkit" }
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        }
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "jkit",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        }
+}
+{ "_id" : 12345, "name" : "abc", "email" : "dummy@mail.com" }
+> db.mycollection.find({'name':'jkit',$and:[{'Address.State':'Maharashtra'},{'Ad
+dress.Pincode':4000400}]}).pretty()
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        }
+}
+> db.mycollection.find({'name':'TEST1234',$or:[{'Address.State':'Maharashtra'},{
+'Address.Pincode':4000400}]}).pretty()
+> db.mycollection.find({'name':'jkit',$or:[{'Address.State':'PUNE'},{'Address.Pi
+ncode':4000400}]}).pretty()
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        }
+}
+> db.mycollection.find({'name':'jkit',$or:[{'Address.State':'PUNE'},{'Address.Pi
+ncode':4000400}]},{'name':1,'Address.City':1}).pretty()
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai"
+        }
+}
+> db.mycollection.find({'name':'jkit',$or:[{'Address.State':'PUNE'},{'Address.Pi
+ncode':4000400}]},{'_id':0,'name':1,'Address.City':1}).pretty()
+{ "name" : "jkit", "Address" : { "City" : "Mumbai" } }
+> db.mycollection.count()
+4
+> db.mycollection.update({'name':'jkit'},{$set:{'name':'NEW JKIT','CLASS':'MONGO
+DB'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.mycollection.find()
+{ "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"), "name" : "NEW JKIT", "CLASS" : "
+MONGODB" }
+{ "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"), "name" : "jkit", "Address" : { "
+City" : "Mumbai", "State" : "Maharashtra", "Pincode" : 4000400 } }
+{ "_id" : ObjectId("5ba6824ccd7bbd4240460e20"), "name" : "jkit", "Departments" :
+ { "Science" : { "DeprtmentId" : 123, "DepartmentName" : "Science Department" },
+ "Math" : { "DepartmentId" : 345, "DepartmentName" : "Math" } } }
+{ "_id" : 12345, "name" : "abc", "email" : "dummy@mail.com" }
+> db.mycollection.find().pretty()
+{
+        "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"),
+        "name" : "NEW JKIT",
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "jkit",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        }
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "jkit",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        }
+}
+{ "_id" : 12345, "name" : "abc", "email" : "dummy@mail.com" }
+> db.mycollection.update({'name':'jkit'},{$set:{'name':'NEW JKIT','CLASS':'MONGO
+DB'}},{'multi':true})
+WriteResult({ "nMatched" : 2, "nUpserted" : 0, "nModified" : 2 })
+> db.mycollection.find().pretty()
+{
+        "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"),
+        "name" : "NEW JKIT",
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "NEW JKIT",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        },
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "NEW JKIT",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        },
+        "CLASS" : "MONGODB"
+}
+{ "_id" : 12345, "name" : "abc", "email" : "dummy@mail.com" }
+> db.mycollection.remove({'name':'abc',$and:[{'_id':12345},{'email':'dummy@mail.
+com'}]})
+WriteResult({ "nRemoved" : 1 })
+> db.mycollection.find().pretty()
+{
+        "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"),
+        "name" : "NEW JKIT",
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "NEW JKIT",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        },
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "NEW JKIT",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        },
+        "CLASS" : "MONGODB"
+}
+> db.mycollection.find().skip(1)
+{ "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"), "name" : "NEW JKIT", "Address" :
+ { "City" : "Mumbai", "State" : "Maharashtra", "Pincode" : 4000400 }, "CLASS" :
+"MONGODB" }
+{ "_id" : ObjectId("5ba6824ccd7bbd4240460e20"), "name" : "NEW JKIT", "Department
+s" : { "Science" : { "DeprtmentId" : 123, "DepartmentName" : "Science Department
+" }, "Math" : { "DepartmentId" : 345, "DepartmentName" : "Math" } }, "CLASS" : "
+MONGODB" }
+> db.mycollection.find().skip(1).pretty()
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "NEW JKIT",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        },
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "NEW JKIT",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        },
+        "CLASS" : "MONGODB"
+}
+> db.mycollection.find().limit(1).pretty()
+{
+        "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"),
+        "name" : "NEW JKIT",
+        "CLASS" : "MONGODB"
+}
+> db.mycollection.find().limit(1).pretty()
+> db.mycollection.find().sort({'name':1}).pretty()
+{
+        "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"),
+        "name" : "NEW JKIT",
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "NEW JKIT",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        },
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "NEW JKIT",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        },
+        "CLASS" : "MONGODB"
+}
+> db.mycollection.find().sort({'name':1,'Adress.City':-1}).pretty()
+{
+        "_id" : ObjectId("5ba680e8cd7bbd4240460e1e"),
+        "name" : "NEW JKIT",
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6814dcd7bbd4240460e1f"),
+        "name" : "NEW JKIT",
+        "Address" : {
+                "City" : "Mumbai",
+                "State" : "Maharashtra",
+                "Pincode" : 4000400
+        },
+        "CLASS" : "MONGODB"
+}
+{
+        "_id" : ObjectId("5ba6824ccd7bbd4240460e20"),
+        "name" : "NEW JKIT",
+        "Departments" : {
+                "Science" : {
+                        "DeprtmentId" : 123,
+                        "DepartmentName" : "Science Department"
+                },
+                "Math" : {
+                        "DepartmentId" : 345,
+                        "DepartmentName" : "Math"
+                }
+        },
+        "CLASS" : "MONGODB"
+}
+db.Foo.insert([
+   {
+      title: 'aaa', 
+      description: 'MongoDB is no sql database',
+      by: 'tutorials point',
+      url: 'http://www.tutorialspoint.com',
+      tags: ['mongodb', 'database', 'NoSQL'],
+      likes: 100
+   },
+	
+   {
+      title: 'aaa', 
+      description: "NoSQL database doesn't have tables",
+      by: 'tutorials point',
+      url: 'http://www.tutorialspoint.com',
+      tags: ['mongodb', 'database', 'NoSQL'],
+      likes: 20, 
+      comments: [	
+         {
+            user:'user1',
+            message: 'My first comment',
+            dateCreated: new Date(2013,11,10,2,35),
+            like: 0 
+         }
+      ]
+   }
+])
